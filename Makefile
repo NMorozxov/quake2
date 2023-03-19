@@ -25,7 +25,7 @@ BUILD_XATRIX=YES	# game$(ARCH).so for xatrix (see README.r for details)
 BUILD_ROGUE=YES		# game$(ARCH).so for rogue (see README.r for details)
 BUILD_JOYSTICK=NO	# build in joystick support
 BUILD_ARTS=NO		# build in support for libaRts sound.
-BUILD_ALSA=NO		# build in support for ALSA (default sound on 2.6)
+BUILD_ALSA=YES		# build in support for ALSA (default sound on 2.6)
 BUILD_DEDICATED=YES	# build a dedicated quake2 server
 BUILD_AA=NO		# build the ascii soft renderer.
 BUILD_QMAX=NO		# build the fancier GL graphics
@@ -169,13 +169,9 @@ DEBUG_CFLAGS=$(BASE_CFLAGS) -g
 ifeq ($(OSTYPE),FreeBSD)
 LDFLAGS=-lm -L/usr/local/lib
 endif
+
 ifeq ($(OSTYPE),Linux)
 LDFLAGS=-lm -ldl
-endif
-ifeq ($(OSTYPE),SCO_SV)
-LDFLAGS=-lm -lsocket
-endif
-
 
 ifeq ($(strip $(BUILD_ARTS)),YES)
 LDFLAGS+=$(shell artsc-config --libs)
@@ -185,6 +181,11 @@ ifeq ($(strip $(BUILD_ALSA)),YES)
 LDFLAGS+=-lasound
 endif
 
+endif
+
+ifeq ($(OSTYPE),SCO_SV)
+LDFLAGS=-lm -lsocket
+endif
 
 SVGALDFLAGS=-lvga -L/usr/local/lib
 
@@ -373,7 +374,7 @@ ifeq ($(ARCH),x86_64)
   $(warning Warning: SVGA not supported for $(ARCH))
  endif
 
- ifeq ($(strip $(BUILD_SOFTX)),YES)
+ ifeq ($(strip $(BUILD_X11)),YES)
   $(warning Warning: Software X Renderer not supported for $(ARCH))
  endif
 
@@ -383,6 +384,10 @@ ifeq ($(ARCH),x86_64)
 
  ifeq ($(strip $(BUILD_FXGL)),YES)
   $(warning Warning: FXGL not currently supported for $(ARCH))
+ endif
+
+ ifeq ($(strip $(BUILD_SDL)),YES)
+  TARGETS += $(BUILDDIR)/ref_softsdl.$(SHLIBEXT)
  endif
 
  ifeq ($(strip $(BUILD_SDLGL)),YES)
@@ -511,6 +516,11 @@ QUAKE2_OBJS = \
 
 QUAKE2_LNX_OBJS = \
 	$(BUILDDIR)/client/cd_linux.o 
+
+ifneq ($(OSTYPE),Linux)
+# For non Linux try OSS only
+QUAKE2_LNX_OBJS += $(BUILDDIR)/client/snd_linux.o
+else
 ifeq ($(BUILD_ARTS),YES)
 QUAKE2_LNX_OBJS += $(BUILDDIR)/client/snd_arts.o
 else
@@ -518,6 +528,7 @@ ifeq ($(strip $(BUILD_ALSA)),YES)
 QUAKE2_LNX_OBJS += $(BUILDDIR)/client/snd_alsa.o
 else
 QUAKE2_LNX_OBJS += $(BUILDDIR)/client/snd_linux.o
+endif
 endif
 endif
 

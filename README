@@ -31,8 +31,7 @@ The resulting binaries are then put in releasei386.
 
 Known Bugs
 ------------
-ALSA sound support is not 100% there.  I would stick with SDL or OSS for now.
-
+SDL Quake2 not running (Linux x86_64), possible we must swith to higher version of SDL
 
 Makefile options:
 -----------------

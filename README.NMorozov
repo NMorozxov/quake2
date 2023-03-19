@@ -3,5 +3,6 @@ Patched quake2-r.0.16.2 source
 - Rogue and Xatrix source integrated
 - FreeBSD patches from ports collection integrated (including security patch)
 - NMorozov port to SCO Unix
+- Fixed ALSA sound
 
 This source code is compiling under Linux,FreeBSD,SCO,Solaris and posible IRIX (look src/irix), and of course must compile under Win32
