@@ -664,12 +664,17 @@ $(BUILDDIR)/client/sv_user.o :    $(SERVER_DIR)/sv_user.c
 $(BUILDDIR)/client/sv_world.o :   $(SERVER_DIR)/sv_world.c
 	$(DO_CC)
 
-ifneq ($(OSTYPE),SCO_SV)
-$(BUILDDIR)/client/q_shlinux.o :  $(LINUX_DIR)/q_shlinux.c
-	$(DO_CC)
-else
+ifeq ($(OSTYPE),SCO_SV)
 $(BUILDDIR)/client/q_shlinux.o :  $(MOUNT_DIR)/sco/q_shsco.c
 	$(DO_CC)
+else
+ifeq ($(ARCH),x86_64)
+$(BUILDDIR)/client/q_shlinux.o :  $(MOUNT_DIR)/sco/q_shsco.c
+	$(DO_CC)
+else
+$(BUILDDIR)/client/q_shlinux.o :  $(LINUX_DIR)/q_shlinux.c
+	$(DO_CC)
+endif
 endif
 
 $(BUILDDIR)/client/vid_menu.o :   $(LINUX_DIR)/vid_menu.c
@@ -798,14 +803,18 @@ $(BUILDDIR)/ded/sv_user.o :    $(SERVER_DIR)/sv_user.c
 $(BUILDDIR)/ded/sv_world.o :   $(SERVER_DIR)/sv_world.c
 	$(DO_DED_CC)
 
-ifneq ($(OSTYPE),SCO_SV)
-$(BUILDDIR)/ded/q_shlinux.o :  $(LINUX_DIR)/q_shlinux.c
-	$(DO_DED_CC)
-else
+ifeq ($(OSTYPE),SCO_SV)
 $(BUILDDIR)/ded/q_shlinux.o :  $(MOUNT_DIR)/sco/q_shsco.c
 	$(DO_DED_CC)
+else
+ifeq ($(ARCH),x86_64)
+$(BUILDDIR)/ded/q_shlinux.o :  $(MOUNT_DIR)/sco/q_shsco.c
+	$(DO_DED_CC)
+else
+$(BUILDDIR)/ded/q_shlinux.o :  $(LINUX_DIR)/q_shlinux.c
+	$(DO_DED_CC)
 endif
-
+endif
 
 $(BUILDDIR)/ded/sys_linux.o :  $(LINUX_DIR)/sys_linux.c
 	$(DO_DED_CC)
@@ -1780,12 +1789,17 @@ $(BUILDDIR)/ref_soft/sys_dosa.o :     $(LINUX_DIR)/sys_dosa.s
 $(BUILDDIR)/ref_soft/q_shared.o :     $(GAME_DIR)/q_shared.c
 	$(DO_SHLIB_CC)
 
-ifneq ($(OSTYPE),SCO_SV)
-$(BUILDDIR)/ref_soft/q_shlinux.o :    $(LINUX_DIR)/q_shlinux.c
+ifeq ($(OSTYPE),SCO_SV)
+$(BUILDDIR)/ref_soft/q_shlinux.o :  $(MOUNT_DIR)/sco/q_shsco.c
 	$(DO_SHLIB_CC)
 else
-$(BUILDDIR)/ref_soft/q_shlinux.o :    $(MOUNT_DIR)/sco/q_shsco.c
+ifeq ($(ARCH),x86_64)
+$(BUILDDIR)/ref_soft/q_shlinux.o :  $(MOUNT_DIR)/sco/q_shsco.c
 	$(DO_SHLIB_CC)
+else
+$(BUILDDIR)/ref_soft/q_shlinux.o :  $(LINUX_DIR)/q_shlinux.c
+	$(DO_SHLIB_CC)
+endif
 endif
 
 $(BUILDDIR)/ref_soft/glob.o :         $(LINUX_DIR)/glob.c
@@ -1905,12 +1919,17 @@ $(BUILDDIR)/ref_gl/qgl_linux.o :      $(LINUX_DIR)/qgl_linux.c
 $(BUILDDIR)/ref_gl/q_shared.o :       $(GAME_DIR)/q_shared.c
 	$(DO_GL_SHLIB_CC)
 
-ifneq ($(OSTYPE),SCO_SV)
-$(BUILDDIR)/ref_gl/q_shlinux.o :      $(LINUX_DIR)/q_shlinux.c
+ifeq ($(OSTYPE),SCO_SV)
+$(BUILDDIR)/ref_gl/q_shlinux.o :  $(MOUNT_DIR)/sco/q_shsco.c
 	$(DO_GL_SHLIB_CC)
 else
-$(BUILDDIR)/ref_gl/q_shlinux.o :    $(MOUNT_DIR)/sco/q_shsco.c
-	$(DO_SHLIB_CC)
+ifeq ($(ARCH),x86_64)
+$(BUILDDIR)/ref_gl/q_shlinux.o :  $(MOUNT_DIR)/sco/q_shsco.c
+	$(DO_GL_SHLIB_CC)
+else
+$(BUILDDIR)/ref_gl/q_shlinux.o :  $(LINUX_DIR)/q_shlinux.c
+	$(DO_GL_SHLIB_CC)
+endif
 endif
 
 $(BUILDDIR)/ref_gl/glob.o :           $(LINUX_DIR)/glob.c
