@@ -189,6 +189,11 @@ qboolean SNDDMA_Init (void)
   frame_size = (snd_pcm_format_physical_width(format)*dma.channels)/8;
     if ((err = snd_pcm_prepare(playback_handle)) < 0) {
         Com_Printf("ALSA snd error preparing audio (%s)\n", snd_strerror(err));
+        snd_pcm_hw_params_free(hw_params);
+        hw_params = NULL;
+        snd_pcm_close(playback_handle);
+        snd_pcm_hw_free(playback_handle);
+        playback_handle = NULL;
         return 0;
     }
 
@@ -201,10 +206,6 @@ qboolean SNDDMA_Init (void)
   dma.buffer = (byte *)buffer;
 
   snd_inited = 1;
-
-  /*if (snd_pcm_format_set_silence(format, buffer, dma.samples) < 0) {
-       Com_Printf("ALSA silence error\n");
-  }*/
 
   return 1;
 }
