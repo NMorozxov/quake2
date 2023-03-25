@@ -243,23 +243,27 @@ void VID_MenuInit( void )
 		"[320 240  ]",
 		"[400 300  ]",
 		"[512 384  ]",
+		"[640 400  ]", /* generic 16:10 widescreen resolutions */
 		"[640 480  ]",
+ 		"[800 500  ]", /* as found on many modern notebooks    */
 		"[800 600  ]",
 		"[960 720  ]",
-		"[1024 768 ]",
-		"[1152 864 ]",
-		"[1280 1024]",
-		"[1600 1200]",
-		"[2048 1536]",
 		"[1024 480 ]", /* sony vaio pocketbook */
-		"[1152 768 ]", /* Apple TiBook */
-		"[1280 854 ]", /* apple TiBook */
-		"[640 400  ]", /* generic 16:10 widescreen resolutions */
- 		"[800 500  ]", /* as found on many modern notebooks    */
+ 		"[1024 600 ]",
  		"[1024 640 ]",
+		"[1024 768 ]",
+		"[1152 768 ]", /* Apple TiBook */
+		"[1152 864 ]",
  		"[1280 800 ]",
+		"[1280 854 ]", /* apple TiBook */
+		"[1280 1024]",
+ 		"[1366 768 ]",
+		"[1600 1200]",
  		"[1680 1050]",
+ 		"[1920 1080]",
  		"[1920 1200]",
+		"[2048 1536]",
+ 		"[3840 2160]", /* 4K Ultra High Definition */
 		0
 	};
 	static const char *yesno_names[] =
@@ -311,7 +315,7 @@ void VID_MenuInit( void )
 	if ( !gl_picmip )
 		gl_picmip = Cvar_Get( "gl_picmip", "0", 0 );
 	if ( !gl_mode )
-		gl_mode = Cvar_Get( "gl_mode", "3", 0 );
+		gl_mode = Cvar_Get( "gl_mode", "4", 0 );
 	if ( !sw_mode )
 		sw_mode = Cvar_Get( "sw_mode", "0", 0 );
 	if ( !gl_ext_palettedtexture )
